@@ -1,5 +1,18 @@
 from flask_restful import Resource, reqparse
 from models.filmes import FilmeModel
+import sqlite3
+
+class Filmes(Resource):
+    def get(self):
+        return {"filmes": [filme.json() for filme in FilmeModel.query.all()]}, 200
+
+
+class Filme(Resource):
+    def get(self, filme_id):
+        filme = FilmeModel.find_filme_by_id(filme_id)
+        if filme:
+            return filme.json()
+        return {'message': 'Movie not found.'}, 404
 
 
 class FilmeCadastro(Resource):
@@ -21,16 +34,3 @@ class FilmeCadastro(Resource):
             filme = FilmeModel(**dados)
             filme.save_filme()
             return {'message': filme.json()}, 200
-
-
-class Filmes(Resource):
-    def get(self):
-        return {"filmes": [filme.json() for filme in FilmeModel.query.all()]}, 200
-
-
-class Filme(Resource):
-    def get(self, filme_id):
-        filme = FilmeModel.find_filme_by_id(filme_id)
-        if filme:
-            return filme.json()
-        return {'message': 'Movie not found.'}, 404
