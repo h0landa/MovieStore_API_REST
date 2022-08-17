@@ -1,8 +1,9 @@
-from sqlalchemy import db
+from sql_alchemy import db
 
 
 class FilmeModel(db.Model):
     __tablename__ = 'filmes'
+
     filme_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nome = db.Column(db.String(80))
     faixa_etaria = db.Column(db.Integer)
@@ -21,6 +22,7 @@ class FilmeModel(db.Model):
 
     def json(self):
         return {
+            'filme_id': self.filme_id,
             'nome': self.nome,
             'faixa_etaria': self.faixa_etaria,
             'ano': self.ano,
@@ -31,7 +33,14 @@ class FilmeModel(db.Model):
 
     @classmethod
     def find_filme(cls, nome):
-        filme = cls.query.filter_by(nome=nome)
+        filme = cls.query.filter_by(nome=nome).first()
+        if filme:
+            return filme
+        return None
+
+    @classmethod
+    def find_filme_by_id(cls, filme_id):
+        filme = cls.query.filter_by(filme_id=filme_id).first()
         if filme:
             return filme
         return None
