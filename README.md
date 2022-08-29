@@ -39,3 +39,6 @@ Press CTRL+C to quit
  * Debugger is active!
  * Debugger PIN: 791-915-549
 ```
+# Observações:
+
+O projeto já possui um banco que já vem preenchido com 50 filmes e 10 atores. Cada filme está relacionado a um ator por meio de relacionamento entre tabelas SQL. Claro que você também pode cadastrar mais filmes.
